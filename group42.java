@@ -9,6 +9,11 @@ public class group42 implements ContestSubmission
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
+	int fittest = 0;
+	int secondfittest= 0;
+	int fittestind=-1; int secondfittestind=-1;
+	int popsize = 10;
+	
 	
 	public group42()
 	{
@@ -56,7 +61,6 @@ public class group42 implements ContestSubmission
         System.out.println("test3");
         int evals = 0;
         // init population
-		int popsize = 25;
 		int ran;
 		double children[][] = new double[popsize][10];
 		for(int i = 0; i <popsize; i++){
@@ -68,8 +72,10 @@ public class group42 implements ContestSubmission
 		
 		
         // calculate fitness
-		System.out.println(findFitness(children[3]));
 		
+		findFittest(children);
+		System.out.println(fittestind);
+		System.out.println(fittest);
 		
 		
         while(evals<evaluations_limit_){
@@ -86,10 +92,26 @@ public class group42 implements ContestSubmission
 	}
 	
 	public int findFitness(double child[]){
-		int findFitness=0;
-		for(int i = 0; i < 10; i++){findFitness+=child[i];}
-		return findFitness;
+		int fitness=0;
+		for(int i = 0; i < 10; i++){fitness+=child[i];}
+				System.out.print("Fitness is ");
+				System.out.println(fitness);
+
+		return fitness;
 	}
+	public void findFittest(double children[][]){
+
+		for(int i=0; i < popsize; i++){
+			int found = findFitness(children[i]);
+			if( found > fittest){fittestind = i;fittest = found;} else if (found > secondfittest){secondfittestind = i; secondfittest = found;}
+		}
+		
+	}
+	
+	public void crossover(double fittest[], double secondfittest[]){
+	 #todo swap genen	
+	}
+	
 	
 
 }
