@@ -15,6 +15,9 @@ public class group42 implements ContestSubmission
 	int popsize = 10;
 	
 	
+	double child1[] = new double[10];
+	double child2[] = new double[10];
+	
 	public group42()
 	{
 		rnd_ = new Random();
@@ -73,29 +76,35 @@ public class group42 implements ContestSubmission
 		
         // calculate fitness
 		
-		findFittest(children);
-		System.out.println(fittestind);
-		System.out.println(fittest);
+		
+		
 		
 		
         while(evals<evaluations_limit_){
             // Select parents
-			
+			findFittest(children);
             // Apply crossover / mutation operators
-            double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+			crossover(children[fittestind],children[secondfittestind],5);
             // Check fitness of unknown fuction
-            Double fitness = (double) evaluation_.evaluate(child);
+            Double fitness = (double) evaluation_.evaluate(child1);
             evals++;
             // Select survivors
+			int rip = leastFit(children);
+			children[rip] = child1;
+			rip = leastFit(children);
+			children[rip] = child2;
         }
+		for(int i=0; i < popsize; i++){
+			
+			System.out.println("Fitness of child " + i + ":" + findFitness(children[i]));
+
+		}
 
 	}
 	
 	public int findFitness(double child[]){
 		int fitness=0;
 		for(int i = 0; i < 10; i++){fitness+=child[i];}
-				System.out.print("Fitness is ");
-				System.out.println(fitness);
 
 		return fitness;
 	}
@@ -108,8 +117,28 @@ public class group42 implements ContestSubmission
 		
 	}
 	
-	public void crossover(double fittest[], double secondfittest[]){
-	 #todo swap genen	
+	public int leastFit(double children[][]){
+		int least = 10;
+		int leastind = -1;
+		for(int i=0; i < popsize; i++){
+			int found = findFitness(children[i]);
+			if( found < least){leastind = i;least = found;}
+		}
+		return leastind;
+	}
+	
+	public void crossover(double fittest[], double secondfittest[], int crosspoint){
+
+		for(int i = 0; i< 10; i++){
+			if(i < crosspoint){
+				child1[i] = fittest[i];
+				child2[i] = secondfittest[i];
+			}
+			else{
+				child1[i] = secondfittest[i];
+				child2[i] = fittest[i];
+			}
+		}
 	}
 	
 	
