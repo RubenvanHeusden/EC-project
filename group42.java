@@ -61,45 +61,78 @@ public class group42 implements ContestSubmission
 	public void run()
 	{
 		// Run your algorithm here
-        System.out.println("test3");
+        
         int evals = 0;
         // init population
 		int ran;
 		double children[][] = new double[popsize][10];
 		for(int i = 0; i <popsize; i++){
 			for(int j = 0; j <10; j++){
-				ran = rnd_.nextInt(2);
+				ran = rnd_.nextInt(10) - 5;
 				children[i][j] = ran;
 			}
 		}
+		
+		for(int ii=0; ii < popsize; ii++){
+			
+			System.out.print("Fitness of child " + ii + ":" + findFitness(children[ii])+"    ");
+			for(int jj = 0; jj <10; jj++){System.out.print(children[ii][jj] + " ");}
+			System.out.println();
+			}
+			 System.out.println();
+			 System.out.println();
+			 System.out.println();
 		
 		
         // calculate fitness
 		
 		
 		
-		
+		//evaluations_limit_ = 50;
 		
         while(evals<evaluations_limit_){
             // Select parents
+			
+			
+			
+			
 			findFittest(children);
             // Apply crossover / mutation operators
 			crossover(children[fittestind],children[secondfittestind],5);
             // Check fitness of unknown fuction
-            Double fitness = (double) evaluation_.evaluate(child1);
-            evals++;
+			mutate(child1);
+			mutate(child2);
+			
+			/*for(int i = 0; i < popsize; i++){
+				Double fitness = (double) evaluation_.evaluate(children[i]);
+				evals++;
+			}*/
+			Double fitness = (double) evaluation_.evaluate(child1);
+			evals++;
+			fitness = (double) evaluation_.evaluate(child2);
+			evals++;
+			
             // Select survivors
 			int rip = leastFit(children);
+			//System.out.println(rip);
 			children[rip] = child1;
+			
 			rip = leastFit(children);
 			children[rip] = child2;
-        }
-		for(int i=0; i < popsize; i++){
 			
-			System.out.println("Fitness of child " + i + ":" + findFitness(children[i]));
-
+        
 		}
 
+	 for(int ii=0; ii < popsize; ii++){
+			
+			System.out.print("Fitness of child " + ii + ":" + findFitness(children[ii])+"    ");
+			for(int jj = 0; jj <10; jj++){System.out.print(children[ii][jj] + " ");}
+			System.out.println();
+			}
+			 System.out.println();
+			
+		
+		
 	}
 	
 	public int findFitness(double child[]){
@@ -118,7 +151,7 @@ public class group42 implements ContestSubmission
 	}
 	
 	public int leastFit(double children[][]){
-		int least = 10;
+		int least = 100;
 		int leastind = -1;
 		for(int i=0; i < popsize; i++){
 			int found = findFitness(children[i]);
@@ -139,6 +172,11 @@ public class group42 implements ContestSubmission
 				child2[i] = fittest[i];
 			}
 		}
+	}
+	
+	public void mutate(double child[]){
+		int mute = rnd_.nextInt(10);
+		child[mute] = rnd_.nextInt(5);
 	}
 	
 	
