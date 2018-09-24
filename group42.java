@@ -155,8 +155,8 @@ public class group42 implements ContestSubmission
         
         int evals = 0;
         // init population
-		Individual[] population = new Individual[100];
-		for(int x = 0; x<100;x++){
+		Individual[] population = new Individual[populationSize];
+		for(int x = 0; x<populationSize;x++){
 			double[] gen_type = new double[10];
 			for(int y = 0; y<10;y++){
 				gen_type[y] = -5 + rnd_.nextDouble() * (5 + 5);				
