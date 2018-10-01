@@ -1,8 +1,12 @@
 Ideas:
 
-1. Variable population size:
+Variable population size:
   - Vary the (maximum) size of the population during the simulation
   - Linear decrease?
   - Compare different (static) population sizes on problems with different amounts of local optima?
 
-2. 
+Comparison between mutation mechanisms and island model in diversity effectiveness
+
+Parent count and new children count in the Recombination process
+
+Replace individuals with less than (95)% fitness of the best individual with random instances?
