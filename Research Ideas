@@ -1,0 +1,8 @@
+Ideas:
+
+1. Variable population size:
+  - Vary the (maximum) size of the population during the simulation
+  - Linear decrease?
+  - Compare different (static) population sizes on problems with different amounts of local optima?
+
+2. 
