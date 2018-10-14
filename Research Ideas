@@ -10,3 +10,12 @@ Comparison between mutation mechanisms and island model in diversity effectivene
 Parent count and new children count in the Recombination process
 
 Replace individuals with less than (95)% fitness of the best individual with random instances?
+
+
+(Voorlopige) Research Question
+
+Our research question focuses on incorporating Correlated Mutation in an Evolutionary Algorithm as a means of dealing with functions containing a myriad of local optima, 
+through maintaining a high degree of diversity within the population. The performance will be compared against an Evolutionary Algorithm using "default" mutation. 
+These algorithms will be ran on the Katsuura function to evaluate the effectiveness of the 
+algorithm with Correlated Mutation on a problem with many local optima, as well as on "other functions" 
+to evaluate whether this algorithm maintains effectiveness on functions with less local optima.
