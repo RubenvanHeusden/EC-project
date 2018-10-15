@@ -13,7 +13,9 @@ public class group42 implements ContestSubmission
     private int evaluations_limit_;
     int populationSize = 100;
     int offspringSize = 50;
-		
+	double e = Double.parseDouble(System.getProperty("var1"));	
+	
+	
 	public group42()
 	{
 		rnd_ = new Random();
@@ -21,7 +23,7 @@ public class group42 implements ContestSubmission
 	
 	public void setSeed(long seed)
 	{
-		// Set seed of algortihms random process
+		// Set seed of algorithms random process
 		rnd_.setSeed(seed);
 	}
 
@@ -82,10 +84,10 @@ public class group42 implements ContestSubmission
 			while(distribution[i] < r ) {
 				i+=1;
 			}
-			mating_pool[current_member] = new Individual(population[i].genotype, population[i].fitness);
+			mating_pool[current_member] = new Individual(population[i].genotype, population[i].fitness,
+					population[i].std_array);
 			current_member+=1;
-		}
-		
+		}	
 	return mating_pool;
 	}
 	
@@ -115,11 +117,17 @@ public class group42 implements ContestSubmission
 	
 	
 	public Individual mutation(Individual individual){
+		// parameters as specified in page 60 of the ec book.
+		double tau = 1/Math.sqrt(2*individual.genotype.length);
+		double tau_prime = 1/Math.sqrt(2*Math.sqrt(individual.genotype.length));
+
 		for (int x = 0; x<individual.genotype.length; x++){
-			// use uniform mutation on each allele as described on page 56
-			// guaranteed mutated for every gene of every individual
+			individual.std_array[x] = Math.max(individual.std_array[x]*Math.exp(tau_prime*rnd_.nextGaussian()+
+					tau*rnd_.nextGaussian()), e);
+
+			
 			double allele = individual.genotype[x];
-			double mutated_value = allele + 0.1*(rnd_.nextDouble()-0.5);
+			double mutated_value = allele + individual.std_array[x]*rnd_.nextGaussian();
 			individual.genotype[x] = mutated_value;
 		}
 		return individual;
@@ -142,9 +150,11 @@ public class group42 implements ContestSubmission
 			child2.genotype[j] = parent1.genotype[j];
 			
 		}
+		child1.std_array = Arrays.copyOf(parent1.std_array, 10);
+		child2.std_array = Arrays.copyOf(parent2.std_array, 10);
 		Individual child1_mut = mutation(child1);
 		Individual child2_mut = mutation(child2);
-		
+
 		return new Individual[] {child1_mut, child2_mut};
 	}
 	
@@ -152,16 +162,19 @@ public class group42 implements ContestSubmission
 	public void run()
 	{
 		// Run your algorithm here
-        
         int evals = 0;
         // init population
 		Individual[] population = new Individual[populationSize];
 		for(int x = 0; x<populationSize;x++){
 			double[] gen_type = new double[10];
+			// used for the array of standard deviations
+			double[] std_array = new double[10];
 			for(int y = 0; y<10;y++){
-				gen_type[y] = -5 + rnd_.nextDouble() * (5 + 5);				
+				gen_type[y] = -5 + rnd_.nextDouble() * (5 + 5);	
+				std_array[y] = Math.max(rnd_.nextGaussian(), e);
+				
 			}
-			population[x] = new Individual(gen_type, 0.0);
+			population[x] = new Individual(gen_type, 0.0, std_array);
 			population[x].fitness = (double) evaluation_.evaluate(population[x].genotype);
 			evals++;
 			
