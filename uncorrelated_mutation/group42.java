@@ -13,7 +13,7 @@ public class group42 implements ContestSubmission
     private int evaluations_limit_;
     int populationSize = 100;
     int offspringSize = 50;
-	double e = Double.parseDouble(System.getProperty("var1"));	
+	double e = 0.005;	
 	
 	
 	public group42()
@@ -48,7 +48,9 @@ public class group42 implements ContestSubmission
 
 		// Do sth with property values, e.g. specify relevant settings of your algorithm
         if(isMultimodal){
-            // Do sth
+            populationSize = 1000;
+            offspringSize = 500;
+        	e = 0.05;	        
         }else{
             // Do sth else
         }
@@ -171,8 +173,8 @@ public class group42 implements ContestSubmission
 			double[] std_array = new double[10];
 			for(int y = 0; y<10;y++){
 				gen_type[y] = -5 + rnd_.nextDouble() * (5 + 5);	
-				std_array[y] = Math.max(rnd_.nextGaussian(), e);
-				
+				//std_array[y] = Math.max(rnd_.nextGaussian(), 0.5);
+				std_array[y] = rnd_.nextGaussian();
 			}
 			population[x] = new Individual(gen_type, 0.0, std_array);
 			population[x].fitness = (double) evaluation_.evaluate(population[x].genotype);
